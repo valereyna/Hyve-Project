@@ -1,99 +1,77 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
 
-export const SearchNotes = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [notes, setNotes] = useState([]);
-
-  const handleSearch = async () => {
-    const { data, error } = await supabase
-      .from('notes')
-      .select('*')
-      .ilike('title', `%${searchTerm}%`);
-    if (error) console.error('Error searching notes:', error);
-    else setNotes(data);
-  };
-
+const SearchNotes = () => {
   return (
-    <div>
-      <input 
-        value={searchTerm} 
-        onChange={(e) => setSearchTerm(e.target.value)} 
-        placeholder="Search notes" 
-      />
-      <button onClick={handleSearch}>Search</button>
-      <div>
-        {notes.map(note => (
-          <div key={note.id}>
-            <h3>{note.title}</h3>
-            <p>Subject: {note.subject}</p>
-            <p>Price: {note.price} nectars</p>
+    <div className="bg-white min-h-screen">
+      {/* Header */}
+      <header className="absolute inset-x-0 top-0 z-50">
+        <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+          <div className="flex lg:flex-1">
+            <Link to="/" className="-m-1.5 p-1.5">
+              <span className="sr-only">Hyve</span>
+              <img className="h-8 w-auto" src="https://pbs.twimg.com/media/GZZwRO0aUAEEiv5?format=jpg&name=4096x4096" alt="Hyve Logo" />
+            </Link>
           </div>
-        ))}
-      </div>
+          <div className="hidden lg:flex lg:gap-x-12">
+            <Link to="/search" className="text-sm font-semibold leading-6 text-gray-900">Find Notes</Link>
+          </div>
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
+            <Link to="/register" className="text-sm font-semibold leading-6 text-gray-900">Register</Link>
+            <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">Sign in <span aria-hidden="true">&rarr;</span></Link>
+          </div>
+        </nav>
+      </header>
+
+      {/* Search and Filters Section */}
+      <section className="pt-28 px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <input
+            type="text"
+            placeholder="Search and filters"
+            className="w-full py-3 px-6 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
+          />
+        </div>
+      </section>
+
+      {/* Popular Notes Section */}
+      <section className="py-16 px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Most Popular in Business */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6">Most popular in Business</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {/* Placeholder for each note */}
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="bg-gray-200 h-48 rounded-md">
+                  <p className="text-center py-16">Note Placeholder</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Most Popular in Computer Science */}
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Most popular in Computer Science</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {/* Placeholder for each note */}
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="bg-gray-200 h-48 rounded-md">
+                  <p className="text-center py-16">Note Placeholder</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-200 py-4">
+        <div className="container mx-auto px-4 text-center">
+          <p>&copy; 2024 Hyve. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
-  );
-};
-
-export const ViewNote = ({ noteId }) => {
-  const [note, setNote] = useState(null);
-
-  useEffect(() => {
-    fetchNote();
-  }, [noteId]);
-
-  const fetchNote = async () => {
-    const { data, error } = await supabase
-      .from('notes')
-      .select('*')
-      .eq('notes_id', noteId)
-      .single();
-    if (error) console.error('Error fetching note:', error);
-    else setNote(data);
-  };
-
-  if (!note) return <div>Loading...</div>;
-
-  return (
-    <div>
-      <h2>{note.title}</h2>
-      <p>Subject: {note.subject}</p>
-      <p>Content: {note.content}</p>
-      <p>Price: {note.price} nectars</p>
-    </div>
-  );
-};
-
-export const UploadNote = () => {
-  const [note, setNote] = useState({ title: '', content: '', subject: '', price: 0 });
-
-  const handleChange = (e) => {
-    setNote({ ...note, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const user = supabase.auth.user();
-    if (user) {
-      const { data, error } = await supabase
-        .from('notes')
-        .insert([{ ...note, user_id: user.id }]);
-      if (error) alert('Error uploading note');
-      else alert('Note uploaded successfully!');
-    } else {
-      alert('You must be logged in to upload notes');
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input name="title" placeholder="Title" onChange={handleChange} required />
-      <textarea name="content" placeholder="Content" onChange={handleChange} required />
-      <input name="subject" placeholder="Subject" onChange={handleChange} required />
-      <input name="price" type="number" placeholder="Price (nectars)" onChange={handleChange} required />
-      <button type="submit">Upload Note</button>
-    </form>
   );
 };
 
