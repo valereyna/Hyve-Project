@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Notes from "../assets/Notes.json";
+import Lottie from "lottie-react";
 
 const LandingPage = () => {
   const [theme, setTheme] = useState('dark');
@@ -62,15 +64,13 @@ const LandingPage = () => {
       </div>
 
       {/* Features Section */}
-      <section className="bg-gray-100 py-40">
+      <section className="bg-gray-100 py-3">
         <div className="container mx-auto px-4 flex items-center">
           <div className="w-1/2">
-            <div className="bg-gray-300 h-64 flex items-center justify-center">
-              <p className="text-gray-600">Image Placeholder</p>
-            </div>
+            <Lottie animationData={Notes}/>
           </div>
           <div className="w-1/2 pl-8">
-            <h2 className="text-2xl font-bold mb-4">Hyve is for Students</h2>
+            <h2 className="text-4xl font-bold mb-4">Hyve is for Students</h2>
             <p className="mb-4">
               Share your study materials and help your peers while earning nectars, our reward system for contributors.
             </p>
@@ -80,20 +80,20 @@ const LandingPage = () => {
 
       {/* Testimonials Section */}
       <section className="bg-white py-12">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <h2 className="text-2xl font-bold mb-8 text-center">What Our Users Say</h2>
           <div className="relative max-w-2xl mx-auto">
-            <button onClick={prevTestimonial} className="absolute left-0 top-1/2 transform -translate-y-1/2">
+            <button onClick={prevTestimonial} className="absolute left-0 top-1/2 transform -translate-y-1/2 px-4">
               <ChevronLeft size={24} />
             </button>
-            <div className="bg-gray-50 p-6 rounded shadow-md">
-              <div className="flex items-center mb-4">
+            <div className="bg-gray-50 px-20 p-6 rounded shadow-md">
+              <div className="flex items-center mb-4"> 
                 <div className="bg-gray-300 w-12 h-12 rounded-full mr-4"></div>
-                <h3 className="font-semibold">{testimonials[currentTestimonial].name}</h3>
+                <h3 className="font-semibold px-1">{testimonials[currentTestimonial].name}</h3>
               </div>
-              <p>{testimonials[currentTestimonial].text}</p>
+              <p className='px-2'>{testimonials[currentTestimonial].text}</p>
             </div>
-            <button onClick={nextTestimonial} className="absolute right-0 top-1/2 transform -translate-y-1/2">
+            <button onClick={nextTestimonial} className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4">
               <ChevronRight size={24} />
             </button>
           </div>
