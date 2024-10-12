@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const LandingPage = () => {
+  const [theme, setTheme] = useState('dark');
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const testimonials = [
     { name: 'User 1', text: 'Hyve has been a game-changer for my studies!' },
@@ -18,23 +19,28 @@ const LandingPage = () => {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  const toggleTheme = () => {
+    setTheme(theme ===  'dark' ? 'light' : 'dark');
+  };
+
   return (
-    <div className="bg-white">
+    <div className={`bg-${theme === 'dark' ? 'gray-900' : 'white'}`}>
       {/* Header */}
       <header className="absolute inset-x-0 top-0 z-50">
         <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div className="flex lg:flex-1">
             <Link to="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Hyve</span>
-              <img className="h-8 w-auto" src="https://pbs.twimg.com/media/GZZwRO0aUAEEiv5?format=jpg&name=4096x4096" alt="Hyve Logo" />
+              <img className="h-12 w-auto" src={`${process.env.PUBLIC_URL}/hyvelogo.png`} alt="Hyve Logo" />
             </Link>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
-            <Link to="/search" className="text-sm font-semibold leading-6 text-gray-900">Find Notes</Link>
-          </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
-            <Link to="/register" className="text-sm font-semibold leading-6 text-gray-900">Register</Link>
-            <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">Sign in <span aria-hidden="true">&rarr;</span></Link>
+            <Link to="/search" className="text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2">Find Notes</Link>
+            <Link to="/register" className="text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-md px-3 py-2">Register</Link>
+            <Link to="/login" className="text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-md px-3 py-2">Sign in <span aria-hidden="true">&rarr;</span></Link>
+            <button onClick={toggleTheme} className="text-sm font-semibold leading-6 text-yellow-500 hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2">
+              {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            </button>
           </div>
         </nav>
       </header>
@@ -43,13 +49,13 @@ const LandingPage = () => {
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Hyve: Enrich Your Learning Experience</h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
+            <h1 className="text-4xl font-bold tracking-tight text-yellow-500 sm:text-6xl">Hyve: Enrich Your Learning Experience</h1>
+            <p className="mt-6 text-lg leading-8 text-white">
               A platform for students to share their study notes and materials from each cohort for better learning and collaboration.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link to="/search" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Look at the notes</Link>
-              <Link to="#" className="text-sm font-semibold leading-6 text-gray-900">Learn more <span aria-hidden="true">→</span></Link>
+              <Link to="#" className="text-sm font-semibold leading-6 text-yellow-500">Learn more <span aria-hidden="true">→</span></Link>
             </div>
           </div>
         </div>
