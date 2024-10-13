@@ -38,8 +38,8 @@ const LandingPage = () => {
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
             <Link to="/search" className="text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2">Find Notes</Link>
-            <Link to="/register" className="text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-md px-3 py-2">Register</Link>
-            <Link to="/login" className="text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-md px-3 py-2">Sign in <span aria-hidden="true">&rarr;</span></Link>
+            <Link to="/register" className="text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2">Register</Link>
+            <Link to="/login" className="text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2">Sign in <span aria-hidden="true">&rarr;</span></Link>
             <button onClick={toggleTheme} className="text-sm font-semibold leading-6 text-yellow-500 hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2">
               {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
             </button>
