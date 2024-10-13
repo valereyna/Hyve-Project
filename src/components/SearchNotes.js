@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 const SearchNotes = () => {
   return (
     <div className="bg-white min-h-screen">
@@ -42,11 +43,27 @@ const SearchNotes = () => {
             <h2 className="text-2xl font-bold mb-6">Most popular in Business</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {/* Placeholder for each note */}
-              {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index} className="bg-gray-200 h-48 rounded-md">
-                  <p className="text-center py-16">Note Placeholder</p>
+              
+                <div className="bg-gray-200 h-48 rounded-md">
+                  <img src="https://i.ibb.co.com/F5LS21n/BI.png" alt="Business Analytics" className='rounded-md'/>
                 </div>
-              ))}
+                 
+                <div className="bg-gray-200 h-48 rounded-md">
+                  <img src="https://i.ibb.co.com/WctsKs4/Frame-12.png" alt="Digital Marketing" className='rounded-md'/>
+                </div>
+
+                <div className="bg-gray-200 h-48 rounded-md">
+                  <img src="https://i.ibb.co.com/ZT9ZL2F/Frame-11.png" alt="Digital Marketing" className='rounded-md'/>
+                </div>
+
+                <div className="bg-gray-200 h-48 rounded-md">
+                  <img src="https://i.ibb.co.com/xFknz3K/Frame-8.png" alt="Digital Marketing" className='rounded-md'/>
+                </div>
+
+                <div className="bg-gray-200 h-48 rounded-md">
+                  <img src="https://i.ibb.co.com/qnr5LJs/Frame-10.png" alt="Digital Marketing" className='rounded-md'/>
+                </div>
+              
             </div>
           </div>
 
@@ -55,11 +72,27 @@ const SearchNotes = () => {
             <h2 className="text-2xl font-bold mb-6">Most popular in Computer Science</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {/* Placeholder for each note */}
-              {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index} className="bg-gray-200 h-48 rounded-md">
-                  <p className="text-center py-16">Note Placeholder</p>
-                </div>
-              ))}
+              
+            <div className="bg-gray-200 h-48 rounded-md">
+              <img src="https://i.ibb.co.com/y6QyM9d/Frame-14.png" alt="Business Analytics" className='rounded-md'/>
+            </div>
+             
+            <div className="bg-gray-200 h-48 rounded-md">
+              <img src="https://i.ibb.co.com/qrTySJy/Frame-15.png" alt="Digital Marketing" className='rounded-md'/>
+            </div>
+
+            <div className="bg-gray-200 h-48 rounded-md">
+              <img src="https://i.ibb.co.com/JdSSH6j/Frame-16.png" alt="Digital Marketing" className='rounded-md'/>
+            </div>
+
+            <div className="bg-gray-200 h-48 rounded-md">
+              <img src="https://i.ibb.co.com/jZ7V6S1/Frame-17.png" alt="Digital Marketing" className='rounded-md'/>
+            </div>
+
+            <div className="bg-gray-200 h-48 rounded-md">
+              <img src="https://i.ibb.co.com/LRRhZvv/Frame-13.png" alt="Digital Marketing" className='rounded-md'/>
+            </div>
+
             </div>
           </div>
         </div>
