@@ -3,13 +3,24 @@ import { supabase } from '../supabaseClient'; // Import supabase client
 import { Link } from 'react-router-dom';
 
 export default function Register() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [institution, setInstitution] = useState('');
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    institution: ''
+  });
+
   const [error, setError] = useState(null);
+
+  // Handle input changes
+  const handleChanges = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -18,22 +29,22 @@ export default function Register() {
     // Register the user with Supabase
     try {
       const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
+        email: formData.email,
+        password: formData.password,
         options: {
           data: {
-            username,
-            firstName,
-            lastName,
-            institution
-          }
-        }
+            username: formData.username,
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            institution: formData.institution,
+          },
+        },
       });
 
       if (error) {
         setError(error.message); // Show the error if registration fails
       } else {
-        console.log("Registration successful", data);
+        console.log('Registration successful', data);
         // Handle successful registration (e.g., redirect to dashboard)
       }
     } catch (err) {
@@ -84,8 +95,8 @@ export default function Register() {
                   name="username"
                   type="text"
                   required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)} // Update username state
+                  value={formData.username}
+                  onChange={handleChanges} // Handle change via function
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -101,8 +112,8 @@ export default function Register() {
                   name="email"
                   type="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)} // Update email state
+                  value={formData.email}
+                  onChange={handleChanges} // Handle change via function
                   autoComplete="email"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -119,8 +130,8 @@ export default function Register() {
                   name="password"
                   type="password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)} // Update password state
+                  value={formData.password}
+                  onChange={handleChanges} // Handle change via function
                   autoComplete="current-password"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -137,8 +148,8 @@ export default function Register() {
                   name="firstName"
                   type="text"
                   required
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)} // Update first name state
+                  value={formData.firstName}
+                  onChange={handleChanges} // Handle change via function
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -154,8 +165,8 @@ export default function Register() {
                   name="lastName"
                   type="text"
                   required
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)} // Update last name state
+                  value={formData.lastName}
+                  onChange={handleChanges} // Handle change via function
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -171,8 +182,8 @@ export default function Register() {
                   name="institution"
                   type="text"
                   required
-                  value={institution}
-                  onChange={(e) => setInstitution(e.target.value)} // Update institution state
+                  value={formData.institution}
+                  onChange={handleChanges} // Handle change via function
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -208,6 +219,18 @@ export default function Register() {
               Sign up with Discord
             </button>
           </div>
+          <p className="mt-10 text-center text-sm text-gray-500">
+            Already have an account?{' '}
+            <Link to="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              Sign in here
+            </Link>
+          </p>
+
+          <p className="mt-4 text-center text-sm text-gray-500">
+            <Link to="/" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              Back to Homepage
+            </Link>
+          </p>
         </div>
       </div>
     </>

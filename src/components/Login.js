@@ -3,19 +3,29 @@ import { supabase } from '../supabaseClient'; // Import supabase client
 import { Link } from 'react-router-dom';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
   const [error, setError] = useState(null);
 
+  // Handle input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Handle login
   const handleLogin = async (e) => {
     e.preventDefault();
-    
     setError(null);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: formData.email,
+        password: formData.password,
       });
 
       if (error) {
@@ -72,8 +82,8 @@ export default function Login() {
                   name="email"
                   type="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)} // Update email state
+                  value={formData.email}
+                  onChange={handleChange} // Handle change via function
                   autoComplete="email"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -97,8 +107,8 @@ export default function Login() {
                   name="password"
                   type="password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)} // Update password state
+                  value={formData.password}
+                  onChange={handleChange} // Handle change via function
                   autoComplete="current-password"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -137,10 +147,16 @@ export default function Login() {
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Start a 14 day free trial
-            </a>
+            Don't have an account?{' '}
+            <Link to="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              Sign up here
+            </Link>
+          </p>
+
+          <p className="mt-4 text-center text-sm text-gray-500">
+            <Link to="/" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              Back to Homepage
+            </Link>
           </p>
         </div>
       </div>
