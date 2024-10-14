@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient'; // Import supabase client
 import { Link } from 'react-router-dom';
 
@@ -40,17 +40,35 @@ export default function Login() {
     }
   };
 
-  // Function for signing in with OAuth provider
-  const handleOAuthLogin = async (provider) => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({ provider });
+  // Initialize the Google Sign-In button
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your Google client ID
+      callback: handleOAuthLogin,
+    });
+    
+    google.accounts.id.renderButton(
+      document.getElementById('g_id_signin'),
+      { theme: 'outline', size: 'large' } // Customize button options
+    );
+  }, []);
 
-      if (error) {
-        setError(error.message);
-      }
-    } catch (err) {
-      console.error('OAuth login failed', err);
-      setError('Failed to sign in. Please try again.');
+  // Function for signing in with Google OAuth
+  const handleOAuthLogin = async (response) => {
+    const credential = response.credential;
+
+    // Use the credential to sign in with Supabase
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      accessToken: credential,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      console.log("Google login successful", data);
+      // Handle successful login (e.g., redirect to dashboard)
     }
   };
 
@@ -58,11 +76,11 @@ export default function Login() {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <Link to='/'>
+          <Link to="/">
             <img
               alt="Your Company"
-              src="https://pbs.twimg.com/media/GZZwRO0aUAEEiv5?format=jpg&name=4096x4096"
-              className="mx-auto h-10 w-auto"
+              src={`${process.env.PUBLIC_URL}/hyvelogo.png`}
+              className="mx-auto h-12 w-auto"
             />
           </Link>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -72,53 +90,50 @@ export default function Login() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange} // Handle change via function
-                  autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+            <div className="relative">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                autoComplete="email"
+                className="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                placeholder="Enter email"
+              />
+              <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                <svg className="shrink-0 size-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
               </div>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange} // Handle change via function
-                  autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+                className="peer py-3 px-4 ps-11 block w-full bg-gray-100 border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                placeholder="Enter password"
+              />
+              <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                <svg className="shrink-0 size-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"></path>
+                  <circle cx="16.5" cy="7.5" r=".5"></circle>
+                </svg>
               </div>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
               >
                 Sign in
               </button>
@@ -131,20 +146,32 @@ export default function Login() {
             Or sign in with
           </p>
 
-          <div className="mt-2 flex flex-col space-y-4">
-            <button
-              onClick={() => handleOAuthLogin('google')}
-              className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-            >
-              Sign in with Google
-            </button>
-            <button
-              onClick={() => handleOAuthLogin('discord')}
-              className="flex w-full justify-center rounded-md bg-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-            >
-              Sign in with Discord
-            </button>
+          <div className="mt-2 mb-4 border-t border-gray-300"></div>
+
+          {/* Google sign-in button div */}
+          <div id="g_id_onload"
+               data-client_id="834232755995-b50vhecb9an2b0lj75l2jcuqbd8k7aul.apps.googleusercontent.com" // Replace with your Google client ID
+               data-context="signin"
+               data-ux_mode="popup"
+               data-callback="handleOAuthLogin"
+               data-auto_prompt="false">
           </div>
+          <div id="g_id_signin"
+               className="g_id_signin"
+               data-type="standard"
+               data-shape="rectangular"
+               data-theme="outline"
+               data-text="signin_with"
+               data-size="large"
+               data-logo_alignment="left">
+          </div>
+
+          <button
+            onClick={() => handleOAuthLogin('discord')}
+            className="flex w-full justify-center rounded-md bg-purple-700 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 mt-4"
+          >
+            Sign in with Discord
+          </button>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Don't have an account?{' '}

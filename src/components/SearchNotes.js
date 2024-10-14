@@ -11,15 +11,19 @@ const SearchNotes = () => {
           <div className="flex lg:flex-1">
             <Link to="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Hyve</span>
-              <img className="h-8 w-auto" src="https://pbs.twimg.com/media/GZZwRO0aUAEEiv5?format=jpg&name=4096x4096" alt="Hyve Logo" />
+              <img className="h-12 w-auto" src={`${process.env.PUBLIC_URL}/hyvelogo.png`} alt="Hyve Logo" />
             </Link>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
-            <Link to="/search" className="text-sm font-semibold leading-6 text-gray-900">Find Notes</Link>
-          </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
-            <Link to="/register" className="text-sm font-semibold leading-6 text-gray-900">Register</Link>
-            <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">Sign in <span aria-hidden="true">&rarr;</span></Link>
+            <Link to="/" className="text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-900 hover:text-yellow-500 rounded-full px-3 py-2">
+              Home
+            </Link>
+            <Link to="/register" className="text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-900 hover:text-yellow-500 rounded-full px-3 py-2">
+              Register
+            </Link>
+            <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-900 hover:text-yellow-500 rounded-full px-3 py-2">
+              Sign in <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
         </nav>
       </header>
@@ -29,8 +33,8 @@ const SearchNotes = () => {
         <div className="max-w-3xl mx-auto">
           <input
             type="text"
-            placeholder="Search and filters"
-            className="w-full py-3 px-6 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
+            placeholder="Search notes"
+            className="w-full py-3 px-6 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring focus:ring-yellow-300"
           />
         </div>
       </section>

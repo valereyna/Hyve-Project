@@ -74,8 +74,8 @@ export default function Register() {
           <Link to='/'>
             <img
               alt="Your Company"
-              src="https://pbs.twimg.com/media/GZZwRO0aUAEEiv5?format=jpg&name=4096x4096"
-              className="mx-auto h-10 w-auto"
+              src={`${process.env.PUBLIC_URL}/hyvelogo.png`}
+              className="mx-auto h-12 w-auto"
             />
           </Link>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
