@@ -44,7 +44,7 @@ export default function Login() {
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
-      client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your Google client ID
+      client_id: 'GOOGLE_CLIENT_ID', // Replace with  Google client ID
       callback: handleOAuthLogin,
     });
     
