@@ -47,6 +47,9 @@ const LandingPage = () => {
             <Link to="/login" className={theme === 'dark' ? "text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2" : "text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-900 hover:text-yellow-500 rounded-full px-3 py-2"}>
               Sign in <span aria-hidden="true">&rarr;</span>
             </Link>
+            <Link to="/profile" className={theme === 'dark' ? "text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2" : "text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-900 hover:text-yellow-500 rounded-full px-3 py-2"}>
+              Profile
+            </Link>
             <button onClick={toggleTheme} className={theme === 'dark' ? "text-sm font-semibold leading-6 text-yellow-500  hover:bg-yellow-500 hover:text-gray-900 rounded-full px-3 py-2" : "text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-900 hover:text-yellow-500 rounded-full px-3 py-2"}>
               {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
             </button>
